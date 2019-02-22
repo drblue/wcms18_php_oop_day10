@@ -45,6 +45,13 @@ $tracks = $trackController->getTracksForAlbum($_REQUEST['album_id']);
 				<li>
 					<?php echo $track->getName(); ?>
 					(<?php echo $track->getLength(); ?>)
+					<?php
+						if ($track->hasVideo()) {
+							?>
+								<a href="<?php echo $track->getVideoUrl(); ?>" target="_blank">🎬</a>
+							<?php
+						}
+					?>
 				</li>
 			<?php
 		}
