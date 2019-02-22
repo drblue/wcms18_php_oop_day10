@@ -6,12 +6,10 @@ use App\Models\Artist;
 
 class ArtistController extends BaseController {
 	public function getArtist($id) {
-		// return $this->queryId('artists', Artist::class, $id);
-		$res = $this->queryWhere('artists', Artist::class, 'id', $id);
-		return array_shift($res); // Object(Artist);
+		return $this->querySingle('artists', Artist::class, 'id', $id);
 	}
 
 	public function getArtists() {
-		return $this->queryAll('artists', Artist::class);
+		return $this->query('artists', Artist::class, null, null);
 	}
 }
