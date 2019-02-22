@@ -6,7 +6,9 @@ use App\Models\Track;
 
 class TrackController extends BaseController {
 	public function getTrack($id) {
-		return $this->queryId('tracks', Track::class, $id);
+		// return $this->queryId('tracks', Track::class, $id);
+		$res = $this->queryWhere('tracks', Track::class, 'id', $id);
+		return array_shift($res); // Object(Track);
 	}
 
 	public function getTracks() {

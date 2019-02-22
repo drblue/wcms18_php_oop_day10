@@ -6,7 +6,9 @@ use App\Models\Album;
 
 class AlbumController extends BaseController {
 	public function getAlbum($id) {
-		return $this->queryId('albums', Album::class, $id);
+		//return $this->queryId('albums', Album::class, $id);
+		$res = $this->queryWhere('albums', Album::class, 'id', $id);
+		return array_shift($res); // Object(Album);
 	}
 
 	public function getAlbums() {
