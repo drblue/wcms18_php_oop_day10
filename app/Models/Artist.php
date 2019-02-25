@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Album;
 use Illuminate\Database\Eloquent\Model;
 
 class Artist extends Model {
@@ -19,4 +20,8 @@ class Artist extends Model {
 	 * @var bool
 	 */
 	public $timestamps = false;
+
+	public function albums() {
+		return $this->hasMany(Album::class);
+	}
 }

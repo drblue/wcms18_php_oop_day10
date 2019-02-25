@@ -20,10 +20,10 @@ use \App\Models\Track;
 $album = Album::find($_REQUEST['album_id']);
 
 // Hämta ut albumets artist_id
-$artist = Artist::find($album->artist_id);
+$artist = $album->artist;
 
 // Hämta ut alla låtar för detta albumet
-$tracks = Track::where('album_id', $_REQUEST['album_id'])->get();
+$tracks = $album->tracks;
 
 ?>
 

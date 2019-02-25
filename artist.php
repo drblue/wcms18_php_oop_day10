@@ -17,8 +17,6 @@ use \App\Models\Album;
 
 $artist = Artist::find($_REQUEST['artist_id']);
 
-$albums = Album::where('artist_id', $artist->id)->get();
-
 ?>
 
 <h2><?php echo $artist->name; ?></h2>
@@ -27,7 +25,7 @@ $albums = Album::where('artist_id', $artist->id)->get();
 <h3>Album</h3>
 <ol>
 	<?php
-		foreach ($albums as $album) {
+		foreach ($artist->albums as $album) {
 			?>
 				<li>
 					<a href="album.php?album_id=<?php echo $album->id; ?>">
