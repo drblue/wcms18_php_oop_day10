@@ -12,30 +12,24 @@ require("templates/header.php");
  * - (Länk för att skapa en ny låt för det här albumet)
 */
 
-use \App\Controllers\AlbumController;
-use \App\Controllers\ArtistController;
-use \App\Controllers\TrackController;
-
-// Skapa alla controllers vi behöver
-$albumController = new AlbumController($dbh);
-$artistController = new ArtistController($dbh);
-$trackController = new TrackController($dbh);
+use \App\Models\Album;
+use \App\Models\Artist;
+use \App\Models\Track;
 
 // Hämta ut info om just detta albumet
-$album = $albumController->getAlbum($_REQUEST['album_id']);
+$album = Album::find($_REQUEST['album_id']);
 
 // Hämta ut albumets artist_id
-$artist_id = $album->getArtistId();
-$artist = $artistController->getArtist($artist_id);
+$artist = Artist::find($album->artist_id);
 
 // Hämta ut alla låtar för detta albumet
-$tracks = $trackController->getTracksForAlbum($_REQUEST['album_id']);
+$tracks = Track::where('album_id', $_REQUEST['album_id'])->get();
 
 ?>
 
-<h1><?php echo $artist->getName(); ?></h1>
-<h2>Album: <?php echo $album->getName(); ?></h2>
-<p>Genre: <?php echo $album->getGenre(); ?></p>
+<h1><?php echo $artist->name; ?></h1>
+<h2>Album: <?php echo $album->name; ?></h2>
+<p>Genre: <?php echo $album->genre; ?></p>
 
 <h3>Låtar</h3>
 <ol>
@@ -43,12 +37,12 @@ $tracks = $trackController->getTracksForAlbum($_REQUEST['album_id']);
 		foreach ($tracks as $track) {
 			?>
 				<li>
-					<?php echo $track->getName(); ?>
-					(<?php echo $track->getLength(); ?>)
+					<?php echo $track->name; ?>
+					(<?php echo $track->length; ?>)
 					<?php
-						if ($track->hasVideo()) {
+						if ($track->video_url) {
 							?>
-								<a href="<?php echo $track->getVideoUrl(); ?>" target="_blank">🎬</a>
+								<a href="<?php echo $track->video_url; ?>" target="_blank">🎬</a>
 							<?php
 						}
 					?>
@@ -58,7 +52,7 @@ $tracks = $trackController->getTracksForAlbum($_REQUEST['album_id']);
 	?>
 </ol>
 
-<a href="artist.php?artist_id=<?php echo $artist->getId(); ?>">&laquo; Tillbaka till artisten</a>
+<a href="artist.php?artist_id=<?php echo $artist->id; ?>">&laquo; Tillbaka till artisten</a>
 
 <?php
 

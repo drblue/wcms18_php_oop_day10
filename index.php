@@ -6,7 +6,7 @@ require("core/bootstrap.php");
 // Inkludera en gemensam header-template (som alla sidor i denna appen inkluderar)
 require("templates/header.php");
 
-use \App\Controllers\ArtistController;
+use App\Models\Artist;
 
 /**
  * - Hämta ut alla artister och loopa över dem
@@ -14,8 +14,7 @@ use \App\Controllers\ArtistController;
  * - (Länk för att skapa en artist)
 */
 
-$artistController = new ArtistController($dbh);
-$artists = $artistController->getArtists();
+$artists = Artist::all();
 
 ?>
 
@@ -25,8 +24,8 @@ $artists = $artistController->getArtists();
 		foreach ($artists as $artist) {
 			?>
 				<li>
-					<a href="artist.php?artist_id=<?php echo $artist->getId(); ?>">
-						<?php echo $artist->getName(); ?>
+					<a href="artist.php?artist_id=<?php echo $artist->id; ?>">
+						<?php echo $artist->name; ?>
 					</a>
 				</li>
 			<?php
@@ -34,9 +33,7 @@ $artists = $artistController->getArtists();
 	?>
 </ol>
 
-<!--
 <a href="create_artist.php">Skapa ny artist</a>
--->
 
 <?php
 

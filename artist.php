@@ -12,19 +12,17 @@ require("templates/header.php");
  * - (Länk för att skapa ett nytt album för den här artisten)
 */
 
-use \App\Controllers\ArtistController;
-use \App\Controllers\AlbumController;
+use \App\Models\Artist;
+use \App\Models\Album;
 
-$artistController = new ArtistController($dbh);
-$artist = $artistController->getArtist($_REQUEST['artist_id']);
+$artist = Artist::find($_REQUEST['artist_id']);
 
-$albumController = new AlbumController($dbh);
-$albums = $albumController->getAlbumsForArtist($_REQUEST['artist_id']);
+$albums = Album::where('artist_id', $artist->id)->get();
 
 ?>
 
-<h2><?php echo $artist->getName(); ?></h2>
-<p>Birthday: <?php echo $artist->getBirthday(); ?></p>
+<h2><?php echo $artist->name; ?></h2>
+<p>Birthday: <?php echo $artist->birthday; ?></p>
 
 <h3>Album</h3>
 <ol>
@@ -32,9 +30,9 @@ $albums = $albumController->getAlbumsForArtist($_REQUEST['artist_id']);
 		foreach ($albums as $album) {
 			?>
 				<li>
-					<a href="album.php?album_id=<?php echo $album->getId(); ?>">
-						<?php echo $album->getName(); ?>
-						(<?php echo $album->getGenre(); ?>)
+					<a href="album.php?album_id=<?php echo $album->id; ?>">
+						<?php echo $album->name; ?>
+						(<?php echo $album->genre; ?>)
 					</a>
 				</li>
 			<?php

@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
-class Artist extends BaseModel {
-	protected $birthday;
+use Illuminate\Database\Eloquent\Model;
 
-	public function getBirthday() {
-		return $this->birthday;
-	}
+class Artist extends Model {
+	/**
+	 * Indicates if the model should be timestamped.
+	 *
+	 * @var bool
+	 */
+	public $timestamps = false;
 }

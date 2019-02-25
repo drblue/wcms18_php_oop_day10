@@ -2,15 +2,7 @@
 
 namespace App\Models;
 
-class Album extends BaseModel {
-	protected $artist_id;
-	protected $genre;
+use Illuminate\Database\Eloquent\Model;
 
-	public function getArtistId() {
-		return $this->artist_id;
-	}
-
-	public function getGenre() {
-		return $this->genre;
-	}
+class Album extends Model {
 }
