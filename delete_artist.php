@@ -18,31 +18,27 @@ use \App\Models\Album;
 $artist = Artist::find($_REQUEST['artist_id']);
 
 $albums = Album::where('artist_id', $artist->id)->get();
+if (count($albums) > 0) {
+	$delete = false;
+} else {
+	$delete = true;
+}
+
+if ($delete) {
+	$artist->delete();
+}
 
 ?>
 
-<h2><?php echo $artist->name; ?></h2>
-<p>Birthday: <?php echo $artist->birthday; ?></p>
-
-<h3>Album</h3>
-<ol>
-	<?php
-		foreach ($albums as $album) {
-			?>
-				<li>
-					<a href="album.php?album_id=<?php echo $album->id; ?>">
-						<?php echo $album->name; ?>
-						(<?php echo $album->genre; ?>)
-					</a>
-				</li>
-			<?php
-		}
-	?>
-</ol>
-
-<p>
-	<a href="delete_artist.php?artist_id=<?php echo $artist->id; ?>" class="btn btn-danger">Radera artist</a>
-</p>
+<?php if ($delete) { ?>
+	<div class="alert alert-success" role="alert">
+		Artisten <em><?php echo $artist->name; ?></em> raderad! 😵
+	</div>
+<?php } else { ?>
+	<div class="alert alert-warning" role="alert">
+		Artisten <em><?php echo $artist->name; ?></em> kunde inte raderas för den hade album kopplade till sig! 🙀
+	</div>
+<?php } ?>
 
 <a href="index.php">&laquo; Tillbaka</a>
 

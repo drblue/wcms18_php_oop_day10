@@ -15,14 +15,13 @@ require("templates/header.php");
 use \App\Models\Artist;
 
 if (isset($_POST['name'])) {
-	$artist = new Artist();
-	$artist->name = $_POST['name'];
-	if (isset($_POST['birthday'])) {
-		$artist->birthday = $_POST['birthday'];
-	}
-	$artist->save();
+	$artist = Artist::create([
+		'name' => $_POST['name'],
+		'birthday' => isset($_POST['birthday']) ? $_POST['birthday'] : null
+	]);
 
 	echo "<strong>Ny artist skapad 🕺🏻!</strong>";
+	echo "<a href='artist.php?artist_id={$artist->id}'>Till artisten &raquo;</a>";
 }
 
 ?>
