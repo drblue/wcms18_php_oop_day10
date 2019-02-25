@@ -14,23 +14,21 @@ require("templates/header.php");
 
 use \App\Models\Artist;
 use \App\Models\Album;
+use \App\Models\Track;
 
 $artist = Artist::find($_REQUEST['artist_id']);
 
-$album_count = Album::where('artist_id', $artist->id)->count();
-if ($album_count > 0) {
-	$delete = false;
-} else {
-	$delete = true;
+$albums = Album::where('artist_id', $artist->id)->get();
+foreach ($albums as $album) {
+	Track::where('album_id', $album->id)->delete();
+	$album->delete();
 }
 
-if ($delete) {
-	$artist->delete();
-}
+$res = $artist->delete();
 
 ?>
 
-<?php if ($delete) { ?>
+<?php if ($res) { ?>
 	<div class="alert alert-success" role="alert">
 		Artisten <em><?php echo $artist->name; ?></em> raderad! 😵
 	</div>
