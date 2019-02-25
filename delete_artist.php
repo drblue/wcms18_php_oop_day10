@@ -17,8 +17,8 @@ use \App\Models\Album;
 
 $artist = Artist::find($_REQUEST['artist_id']);
 
-$albums = Album::where('artist_id', $artist->id)->get();
-if (count($albums) > 0) {
+$album_count = Album::where('artist_id', $artist->id)->count();
+if ($album_count > 0) {
 	$delete = false;
 } else {
 	$delete = true;
