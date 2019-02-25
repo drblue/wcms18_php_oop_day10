@@ -19,22 +19,24 @@ use \App\Models\Track;
 // Hämta ut info om just detta albumet
 $album = Album::find($_REQUEST['album_id']);
 
-// Hämta ut albumets artist_id
-$artist = $album->artist;
-
-// Hämta ut alla låtar för detta albumet
-$tracks = $album->tracks;
-
 ?>
 
-<h1><?php echo $artist->name; ?></h1>
+<h1>Artist(er)</h1>
+<ul>
+<?php
+	foreach ($album->artists as $artist) {
+		echo "<li><a href='artist.php?artist_id={$artist->id}'>{$artist->name}</a></li>";
+	}
+?>
+</ul>
+
 <h2>Album: <?php echo $album->name; ?></h2>
 <p>Genre: <?php echo $album->genre; ?></p>
 
 <h3>Låtar</h3>
 <ol>
 	<?php
-		foreach ($tracks as $track) {
+		foreach ($album->tracks as $track) {
 			?>
 				<li>
 					<?php echo $track->name; ?>
@@ -52,7 +54,7 @@ $tracks = $album->tracks;
 	?>
 </ol>
 
-<a href="artist.php?artist_id=<?php echo $artist->id; ?>">&laquo; Tillbaka till artisten</a>
+<a href="index.php">&laquo; Tillbaka till alla artister</a>
 
 <?php
 
